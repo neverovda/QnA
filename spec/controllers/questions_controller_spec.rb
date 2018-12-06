@@ -3,15 +3,6 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
   
-  describe 'GET #edit' do
-    
-    before { get :edit, params: { id: question } }
-
-    it 'render edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves a new question in the database' do
