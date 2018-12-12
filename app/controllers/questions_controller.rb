@@ -2,7 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   
   expose :questions, ->{ Question.all }
-  expose :question
+  expose :question  
+  expose :answer, ->{ Answer.new }
 
   def create
         
