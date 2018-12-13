@@ -1,3 +1,7 @@
-b= question.title
-br
+p 
+ = question.title
+
+= link_to 'Delete', question, method: :delete, data: { question_id: question.id }, class: 'btn-delete'
+
+
 

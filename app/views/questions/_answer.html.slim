@@ -1,2 +1,4 @@
-b= answer.body
-br
+p 
+ = answer.body
+
+= link_to 'Delete', answer, method: :delete, data: { answer_id: answer.id }, class: 'btn-delete'

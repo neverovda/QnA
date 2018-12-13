@@ -3,4 +3,9 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  has_many :questions, class_name: 'Question', foreign_key: :author_id,
+            dependent: :nullify
+  has_many :answers, class_name: 'Answer', foreign_key: :author_id,
+            dependent: :nullify                 
 end
