@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   expose :answer, ->{ Answer.new }
 
   def create
-    question.author = current_user
+    @exposed_question = current_user.questions.new(question_params)
     if question.save
       redirect_to question, notice: 'Your question successfully created.'
     else      
@@ -23,12 +23,11 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if question.author == current_user
+    if current_user.author_of?(question)
       question.destroy
-      redirect_to questions_path, notice: 'The question is successfully deleted.'
-    else
-      redirect_to questions_path, alert: 'You can not delete this question.'
+      flash[:notice] = 'The question is successfully deleted.'
     end
+    redirect_to questions_path
   end
 
   private

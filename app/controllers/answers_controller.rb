@@ -1,26 +1,26 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
     
   expose :question
   expose :answer
 
-  def create    
+  def create
+    @exposed_answer = question.answers.new(answer_params)
     answer.author = current_user
-    answer.question = question
-    if answer.save
-      redirect_to answer.question, notice: 'Your answer successfully created.'
-    else
+    
+    if  answer.save
+      redirect_to question, notice: 'Your answer successfully created.'
+    else      
       render 'questions/show'
     end
   end
 
   def destroy
-    if answer.author == current_user
+    if current_user.author_of?(answer)
       answer.destroy
-      redirect_to answer.question, notice: 'The answer is successfully deleted.'
-    else
-      redirect_to answer.question, alert: 'You can not delete this answer.'
+      flash[:notice] = 'The answer is successfully deleted.'
     end
+    redirect_to answer.question
   end
 
   private

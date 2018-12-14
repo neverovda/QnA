@@ -10,7 +10,8 @@ feature "User can see question with it's answers", %q{
   background { visit question_path(question) }
 
   scenario 'User tries to see a question' do
-    expect(page).to have_content question.body    
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
   end
 
   scenario "User tries to see a question's answers" do    

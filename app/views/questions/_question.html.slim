@@ -1,7 +1,4 @@
-p 
- = question.title
-
-= link_to 'Delete', question, method: :delete, data: { question_id: question.id }, class: 'btn-delete'
-
-
-
+p class="question_#{question.id}"
+  = question.title
+  -if current_user&.author_of?(question)
+    = link_to 'Delete', question, method: :delete

@@ -17,23 +17,26 @@ feature 'User can create question', %q{
     end
     scenario 'delete his question' do
       expect(page).to have_content question.title
-      find(".btn-delete[data-question-id=\"#{question.id}\"]").click
+      within(".question_#{question.id}") { click_on 'Delete' }
       expect(page).to have_content 'The question is successfully deleted.'
       expect(page).not_to have_content question.title
     end
+    
     scenario 'delete not his question' do
-      expect(page).to have_content foreign_question.title
-      find(".btn-delete[data-question-id=\"#{foreign_question.id}\"]").click
-      expect(page).to have_content 'You can not delete this question.'
-      expect(page).to have_content foreign_question.title
+      within(".question_#{foreign_question.id}") do
+        expect(page).to have_content foreign_question.title
+        expect(page).to_not have_link 'Delete'
+      end
     end
+
   end
+  
   scenario 'Unauthenticated user tries to delete a question' do
     visit questions_path
-    expect(page).to have_content question.title
-    find(".btn-delete[data-question-id=\"#{question.id}\"]").click
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
-    visit questions_path
-    expect(page).to have_content question.title
+    within(".question_#{question.id}") do 
+      expect(page).to have_content question.title
+      expect(page).to_not have_link 'Delete'
+    end  
   end
+
 end
