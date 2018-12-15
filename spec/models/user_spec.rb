@@ -10,12 +10,12 @@ RSpec.describe User, type: :model do
     let(:another_user) { create(:user) }
     let(:foreign_question) { create(:question, author: another_user) }
 
-    it "it is user's question" do
-      expect(user.author_of?(question)).to be_truthy
+    it "it is user's question" do      
+      expect(user).to be_author_of(question)
     end
 
-    it "it is not user's question" do
-      expect(user.author_of?(foreign_question)).to be_falsey
+    it "it is not user's question" do      
+      expect(user).not_to be_author_of(foreign_question)
     end    
   end  
 
