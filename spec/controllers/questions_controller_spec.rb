@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
-  let(:user) { create(:user) }
   
+  let(:user) { create(:user) }
+  let(:question) { create(:question, author: user) }
+
   describe 'POST #create' do
     before { login(user) }
 
@@ -19,6 +20,11 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:exposed_question)
+      end
+
+      it 'created question belongs to current user' do
+        post :create, params: { question: attributes_for(:question) }
+        expect(assigns(:exposed_question).author_id).to eq user.id
       end
     end
 
@@ -57,13 +63,14 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      let!(:old_params) { { title: question.title, body: question.body } }
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
 
       it 'does not change question' do
         question.reload
 
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq old_params[:title]
+        expect(question.body).to eq old_params[:body]
       end
 
       it 're-renders edit view' do
@@ -73,18 +80,33 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user) }
+    
+    before { question }
 
-    let!(:question) { create(:question) }
+    context 'Authenticated user tries' do
+      before { login(user) }
+         
+      let!(:another_user) { create(:user) }
+      let!(:foreign_question) { create(:question, author: another_user) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      it 'deletes his question' do
+        expect { delete :destroy, params: { id: question } }.to change(user.questions, :count).by(-1)
+      end
+
+      it 'deletes not his question' do
+        expect { delete :destroy, params: { id: foreign_question } }.not_to change(Question, :count)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
-    end
+    it 'Not Authenticated user tries deletes a question' do
+      expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+    end  
+
   end
 
 end
