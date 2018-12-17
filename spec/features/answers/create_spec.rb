@@ -16,11 +16,16 @@ feature 'User can create answer', %q{
     scenario 'Give a answer' do
       fill_in 'answer_body', with: 'text text text'
       click_on 'Post your answer'
-      expect(page).to have_content 'Your answer successfully created.'
-      expect(page).to have_content 'text text text'
+      # expect(page).to have_content 'Your answer successfully created.'
+      # expect(page).to have_content 'text text text'
+
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'text text text'
+      end
     end
     
-    scenario 'Asks a question with errors' do
+    scenario 'Give a answer with errors' do
       click_on 'Post your answer'
       expect(page).to have_content "can't be blank"
     end

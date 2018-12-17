@@ -13,7 +13,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer)} }.to change(question.answers, :count).by(1)
       end  
       
-      it 'redirects to show view' do
+      it 'redirects to question' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }
         expect(response).to redirect_to assigns(:exposed_question)
       end
@@ -28,7 +28,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'dose not save the answer' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid)} }.to_not change(Answer, :count)
       end  
-      it 're-renders new view' do
+      it 'renders question show template' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template 'questions/show'
       end  
