@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions, shallow: true do
-    resources :answers, except: [:show, :index]
+    resources :answers, except: [:show, :index] #, only: [:create, :update]
   end
 end

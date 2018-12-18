@@ -39,6 +39,7 @@ gem 'slim-rails'
 gem 'decent_exposure', '3.0.0'
 gem 'devise'
 gem "twitter-bootstrap-rails"
+gem 'jquery-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

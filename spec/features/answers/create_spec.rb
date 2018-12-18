@@ -7,7 +7,7 @@ feature 'User can create answer', %q{
   given(:user) {create(:user)}
   given(:question) { create(:question, author: user) }
   
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
       visit question_path(question)
@@ -16,9 +16,7 @@ feature 'User can create answer', %q{
     scenario 'Give a answer' do
       fill_in 'answer_body', with: 'text text text'
       click_on 'Post your answer'
-      # expect(page).to have_content 'Your answer successfully created.'
-      # expect(page).to have_content 'text text text'
-
+      
       expect(current_path).to eq question_path(question)
       within '.answers' do
         expect(page).to have_content 'text text text'
