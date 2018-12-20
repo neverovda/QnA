@@ -46,21 +46,21 @@ RSpec.describe AnswersController, type: :controller do
       let!(:foreign_answer) { create(:answer, question: question, author: another_user) }
 
       it 'deletes his answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(user.answers, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(user.answers, :count).by(-1)
       end
 
       it 'deletes not his question' do
-        expect { delete :destroy, params: { id: foreign_answer } }.not_to change(Answer, :count)
+        expect { delete :destroy, params: { id: foreign_answer }, format: :js }.not_to change(Answer, :count)
       end
 
-      it 'redirects to index' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path(question)
+      it 'redders destroy template' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
     it 'Not Authenticated user tries deletes a answer' do
-      expect { delete :destroy, params: { id: answer } }.not_to change(Answer, :count)
+      expect { delete :destroy, params: { id: answer }, format: :js }.not_to change(Answer, :count)
     end  
   end
 
