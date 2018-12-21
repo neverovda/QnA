@@ -16,7 +16,11 @@ class AnswersController < ApplicationController
 
   def update    
     answer.update(answer_params)
-    @question = answer.question
+    @exposed_question = answer.question
+  end
+
+  def best
+    answer.check_best.save    
   end
 
   private

@@ -95,4 +95,23 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #best' do
+    
+    before do
+      login user
+      answer
+    end
+
+    it 'check best the answer' do
+      post :best, params: { id: answer }, format: :js
+      expect { answer.reload }.to change(answer, :best?)
+    end
+
+    it 'renders best template' do
+      post :best, params: { id: answer }, format: :js
+      expect(response).to render_template :best
+    end
+
+  end
+
 end
