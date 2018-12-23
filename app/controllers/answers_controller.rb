@@ -11,11 +11,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    answer.destroy if author_of_answer?
+    answer.destroy if current_user.author_of?(answer)
   end
 
   def update
-    answer.update(answer_params) if author_of_answer?
+    answer.update(answer_params) if current_user.author_of?(answer)
     @exposed_question = answer.question
   end
 
@@ -27,10 +27,6 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
-  end
-
-  def author_of_answer?
-    current_user.author_of?(answer)
-  end
+  end  
 
 end

@@ -4,15 +4,14 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
-  scope :sorted_by_best_and_created, -> { order(best: :desc, created_at: :asc) }
+  scope :sorted_by_best, -> { order(best: :desc, created_at: :asc) }
 
   def check_best!
     another_best = question.answers.where(best: true).first
-    if another_best && another_best != self
-      another_best.update(best: false)      
-    end
-    self.best = !best
-    self.save  
+    transaction do
+      another_best.update!(best: false) if another_best && another_best != self
+      self.update!(best: !best)
+    end  
   end
 
 end
