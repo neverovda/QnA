@@ -15,11 +15,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params)
+    question.update(question_params) if author_of_question?
   end
 
   def destroy
-    if current_user.author_of?(question)
+    if author_of_question?
       question.destroy
       flash[:notice] = 'The question is successfully deleted.'
     end
@@ -30,6 +30,10 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def author_of_question?
+    current_user.author_of?(question)
   end
 
 end

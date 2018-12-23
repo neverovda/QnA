@@ -59,12 +59,12 @@ feature 'User can choose best answer', %q{
       end
     end
 
-    scenario 'the best answer must bo first of list',js: true do
+    scenario 'the best answer must be first of list',js: true do
       within(".answer_#{answer.id}") { click_on 'Best' }
-      within all('.answer').first { expect(page).to have_content "Best answer!" }
-  
+      within all('.answer').first { expect(page).to have_content answer.body }
+        
       within(".answer_#{another_answer.id}") { click_on 'Best' }
-      within all('.answer').first { expect(page).to have_content "Best answer!" }
+      within all('.answer').first { expect(page).to have_content another_answer.body }      
     end  
 
   end

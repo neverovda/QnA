@@ -4,27 +4,15 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
-  before_save :uncheck_another_best
+  scope :sorted_by_best_and_created, -> { order(best: :desc, created_at: :asc) }
 
-  def check_best
-    if best
-      self.best = false
-    else        
-      self.best = true
+  def check_best!
+    another_best = question.answers.where(best: true).first
+    if another_best && another_best != self
+      another_best.update(best: false)      
     end
-    self  
-  end
-
-  private
-
-  def uncheck_another_best
-    return unless best
-
-    best_answer = question.answers.where(best: true).first
-    if best_answer
-      best_answer.best = false
-      best_answer.save
-    end
+    self.best = !best
+    self.save  
   end
 
 end
