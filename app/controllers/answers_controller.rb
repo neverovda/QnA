@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
     
   expose :question
-  expose :answer
+  expose :answer, scope: ->{ Answer.with_attached_files }
 
   def create
     @exposed_answer = question.answers.new(answer_params)
@@ -26,7 +26,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end  
 
 end
