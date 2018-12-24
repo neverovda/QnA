@@ -16,14 +16,13 @@ feature 'User can delete answer', %q{
       visit question_path(question)
     end
     
-    scenario 'delete his answer' do
+    scenario 'delete his answer', js: true do
       expect(page).to have_content answer.body
       within(".answer_#{answer.id}") { click_on 'Delete' }
-      expect(page).to have_content 'The answer is successfully deleted.'
       expect(page).not_to have_content answer.body
     end
     
-    scenario 'delete not his answer' do
+    scenario 'delete not his answer', js: true do
       within(".answer_#{foreign_answer.id}") do
         expect(page).to have_content foreign_answer.body
         expect(page).to_not have_link 'Delete'

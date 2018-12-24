@@ -7,26 +7,26 @@ class AnswersController < ApplicationController
   def create
     @exposed_answer = question.answers.new(answer_params)
     answer.author = current_user
-    
-    if  answer.save
-      redirect_to question, notice: 'Your answer successfully created.'
-    else      
-      render 'questions/show'
-    end
+    answer.save
   end
 
   def destroy
-    if current_user.author_of?(answer)
-      answer.destroy
-      flash[:notice] = 'The answer is successfully deleted.'
-    end
-    redirect_to answer.question
+    answer.destroy if current_user.author_of?(answer)
+  end
+
+  def update
+    answer.update(answer_params) if current_user.author_of?(answer)
+    @exposed_question = answer.question
+  end
+
+  def best
+    answer.check_best! if current_user.author_of?(answer.question)
   end
 
   private
 
   def answer_params
     params.require(:answer).permit(:body)
-  end
+  end  
 
 end

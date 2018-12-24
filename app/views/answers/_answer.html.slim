@@ -1,5 +1,16 @@
 -if answer.persisted?
-  p class="answer_#{answer.id}"
+  - best = answer.best ? ' best' : ''
+  div class = "answer answer_#{answer.id}#{best}"
+    - best_sign_classes = answer.best ? 'best-sign' : 'best-sign hidden'    
+    div class = best_sign_classes
+      = 'Best answer!'
     = answer.body
+    -if current_user&.author_of?(question)
+      = link_to 'Best', best_answer_path(answer),method: :post, remote: true
     -if current_user&.author_of?(answer)
-      = link_to 'Delete', answer, method: :delete
+      = link_to 'Delete', answer, method: :delete, remote: true
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+        = f.submit 'Save'
