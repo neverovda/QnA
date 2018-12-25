@@ -53,6 +53,19 @@ feature 'User can edit his question', %q{
       expect(page).to have_content "Body can't be blank"
     end
 
+    scenario 'add files to his question', js: true do
+      
+      visit question_path(question)
+      click_on 'Edit question'
+      within '.question-form' do 
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      end  
+      click_on 'Save'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
     scenario "tries to edit other user's question", js: true do
       visit question_path(foreign_question)
       expect(page).to_not have_link 'Edit question'
