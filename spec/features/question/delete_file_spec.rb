@@ -6,14 +6,13 @@ feature 'User can delete file', %q{
   from my question
 } do
 
-  given!(:user) { create(:user) }
-  given!(:question) { create(:question, author: user) }
-  given!(:another_user) { create(:user) }
-  given!(:foreign_question) { create(:question, author: another_user) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, :with_file, author: user) }
+  given(:another_user) { create(:user) }
+  given(:foreign_question) { create(:question, :with_file, author: another_user) }
   
 
   scenario 'Unauthenticated can not delete attachment file' do
-    attach_to question.files
     visit question_path(question)
     expect(page).to_not have_link 'Delete file'
   end
@@ -22,7 +21,6 @@ feature 'User can delete file', %q{
     background { sign_in user }
 
     scenario 'delete attachment file from his question', js: true do
-      attach_to question.files
       visit question_path(question)
       expect(page).to have_link 'spec_helper.rb'
       click_on 'Delete file'
@@ -30,7 +28,6 @@ feature 'User can delete file', %q{
     end
 
     scenario 'can not delete attachment file from foreign question' do
-      attach_to foreign_question.files
       visit question_path(foreign_question)
       expect(page).to_not have_link 'Delete file'  
     end  

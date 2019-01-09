@@ -9,11 +9,11 @@ feature 'User can delete file form answer', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
   given(:another_user) { create(:user) }
-  given(:answer) { create(:answer, question: question, author: user) }
-  given(:foreign_answer) { create(:answer, question: question, author: another_user) }
+  given(:answer) { create(:answer, :with_file, question: question, author: user) }
+  given(:foreign_answer) { create(:answer, :with_file, question: question, author: another_user) }
   
   scenario 'Unauthenticated can not delete attachment file' do
-    attach_to answer.files
+    answer
     visit question_path(question)
     expect(page).to_not have_link 'Delete file'
   end
@@ -22,7 +22,7 @@ feature 'User can delete file form answer', %q{
     background { sign_in user }
 
     scenario 'delete attachment file from his answer', js: true do
-      attach_to answer.files
+      answer
       visit question_path(question)
       expect(page).to have_link 'spec_helper.rb'
       click_on 'Delete file'
@@ -30,7 +30,7 @@ feature 'User can delete file form answer', %q{
     end
 
     scenario 'can not delete attachment file from foreign answer' do
-      attach_to foreign_answer.files
+      foreign_answer
       visit question_path(question)
       expect(page).to_not have_link 'Delete file'  
     end  

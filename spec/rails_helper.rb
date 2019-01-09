@@ -35,8 +35,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
-  config.include AttachHelpers
-
+  
   Capybara.javascript_driver = :selenium_chrome_headless
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -75,4 +74,8 @@ Shoulda::Matchers.configure do |config|
     with.test_framework :rspec
     with.library :rails
   end
+end
+
+FactoryBot::SyntaxRunner.class_eval do
+  include ActionDispatch::TestProcess
 end
