@@ -22,6 +22,16 @@ feature 'User can create answer', %q{
         expect(page).to have_content 'text text text'
       end
     end
+
+    scenario 'Give a answer with attached file' do
+      fill_in 'answer_body', with: 'text text text'
+
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Post your answer'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
     
     scenario 'Give a answer with errors' do
       click_on 'Post your answer'
