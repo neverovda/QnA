@@ -16,6 +16,11 @@
         = f.label :files
         = f.file_field :files, multiple: true, direct_upload: true
         = f.submit 'Save'
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          li= link_to link.name, link.url
     -if answer.files.attached?
       - answer.files.each do |file|
         div class = "file_#{file.id}"

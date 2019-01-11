@@ -14,7 +14,7 @@ feature 'User can create answer', %q{
     end
     
     scenario 'Give a answer' do
-      fill_in 'answer_body', with: 'text text text'
+      fill_in 'Your answer', with: 'text text text'
       click_on 'Post your answer'
       
       expect(current_path).to eq question_path(question)
@@ -24,7 +24,7 @@ feature 'User can create answer', %q{
     end
 
     scenario 'Give a answer with attached file' do
-      fill_in 'answer_body', with: 'text text text'
+      fill_in 'Your answer', with: 'text text text'
 
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Post your answer'
