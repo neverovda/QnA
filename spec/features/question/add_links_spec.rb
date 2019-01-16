@@ -7,8 +7,8 @@ feature 'User can add links to question', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:gist_url) { 'https://gist.github.com/vkurennov/743f9367caa1039874af5a2244e1b44c' }
-  given(:gist_url_2) { 'https://gist.github.com/neverovda/c98d3a71503d2a08b8576a9e7483dcbb' }
+  given(:gist_url) {'https://gist.github.com/neverovda/c98d3a71503d2a08b8576a9e7483dcbb'}
+  given(:img_url) { 'https://avatars.mds.yandex.net/get-pdb/33827/eb8a6815-162a-4ca9-86ae-c395861d981a/s1200' }
 
   describe 'Authenticated user' do
     background do
@@ -29,13 +29,13 @@ feature 'User can add links to question', %q{
       click_on 'Add link'
       within('#links nested-fields:nth-child(2)') do
         fill_in 'Link name', with: 'My gist 2'
-        fill_in 'Url', with: gist_url_2
+        fill_in 'Url', with: img_url
       end
 
       click_on 'Ask'
 
       expect(page).to have_link 'My gist', href: gist_url
-      expect(page).to have_link 'My gist 2', href: gist_url_2
+      expect(page).to have_link 'My gist 2', href: img_url
     end
 
     scenario 'User adds invalid link when asks question', js: true do
@@ -52,5 +52,18 @@ feature 'User can add links to question', %q{
       expect(page).not_to have_link 'My gist'
     end
 
+    scenario 'adds gist link when asks question', js: true do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+      
+      click_on 'Add link'
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
+      
+      click_on 'Ask'
+
+      expect(page).to have_content "gist text"
+    end
+    
   end
 end
