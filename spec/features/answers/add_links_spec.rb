@@ -10,6 +10,7 @@ feature 'User can add links to answer', %q{
   given!(:question) {create(:question, author: user)}
   given(:gist_url) {'https://gist.github.com/neverovda/c98d3a71503d2a08b8576a9e7483dcbb'}
   given(:img_url) { 'https://avatars.mds.yandex.net/get-pdb/33827/eb8a6815-162a-4ca9-86ae-c395861d981a/s1200' }
+  given(:answer) { create(:answer, question: question, author: user) }
 
   describe 'Authenticated user' do
     background do
@@ -64,6 +65,26 @@ feature 'User can add links to answer', %q{
 
       expect(page).to have_content "gist text"
     end
-
   end
+
+  describe 'Authenticated user edit his answer' do
+    background do
+      sign_in(user)
+      answer
+      visit question_path(question)
+    end
+
+    scenario 'adds link', js: true do
+      
+      click_on 'Edit'      
+      within('#answer_links') { click_on 'Add link' }
+      fill_in 'Link name', with: 'My link'
+      fill_in 'Url', with: gist_url
+            
+      click_on 'Save'
+      expect(page).to have_link 'My link', href: gist_url
+      
+    end
+  end
+
 end
