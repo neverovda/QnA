@@ -7,36 +7,20 @@ feature 'Author can delete links from answer', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, :with_file, author: user) }
-  given(:another_user) { create(:user) }
-
   given(:answer) { create(:answer, question: question, author: user) }
-  given(:foreign_answer) { create(:answer, question: question, author: another_user) }
+  given!(:link) { create :link, linkable: answer }
   
-  given(:link) { create :link, linkable: answer }
-  given(:foreign_link) { create :link, linkable: foreign_answer }
-
-  scenario 'Unauthenticated can not delete link' do
-    link
+  scenario 'Authenticated user delete link from his answer', js: true do
+    sign_in user
     visit question_path(question)
-    expect(page).to_not have_link 'Delete link'
-  end
+    expect(page).to have_link 'NameLink'
 
-  describe 'Authenticated user' do
-    background { sign_in user }
-
-    scenario 'delete link from his answer', js: true do
-      link
-      visit question_path(question)
-      expect(page).to have_link 'NameLink'
+    within(".answer_#{answer.id}") do
+      click_on 'Edit'
       click_on 'Delete link'
-      expect(page).not_to have_link 'NameLink'
+      click_on 'Save'
     end
-    
-    scenario 'can not delete link from foreign answer' do
-      foreign_link
-      visit question_path(question)
-      expect(page).to_not have_link 'Delete link'
-    end
+    expect(page).not_to have_link 'NameLink'
   end
 
 end

@@ -30,8 +30,6 @@
             p= link_to link.name, link.url
             -if link.gist?
               p= link.gist_content
-            -if current_user&.author_of?(answer)
-              p= link_to 'Delete link', link_path(link), method: :delete, remote: true
     
     -if answer.files.attached?
       - answer.files.each do |file|
