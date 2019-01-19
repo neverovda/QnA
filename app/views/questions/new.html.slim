@@ -15,6 +15,13 @@
   #links
     = f.fields_for :links do |l|     
     .links
-      = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'  
-      
+      = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
+
+  p Badge:
+  p
+    = f.fields_for :badge do |badge|
+      p
+        = badge.label :name, 'Badge name'
+        = badge.text_field :name
+        
   p= f.submit 'Ask'
