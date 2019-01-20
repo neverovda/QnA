@@ -5,8 +5,13 @@ RSpec.describe BadgesController, type: :controller do
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
   
-  let!(:badge) { create(:badge, badgeable: user) }
-  let!(:foreign_badge) { create(:badge, badgeable: another_user) }
+  let(:question) { create(:question, author: user) }
+  let(:answer) { create(:answer, question: question, author: user) }
+  let(:foreign_answer) { create(:answer, question: question, author: another_user) }
+  
+
+  let!(:badge) { create(:badge, question: question, badgeable: answer) }
+  let!(:foreign_badge) { create(:badge, question: question, badgeable: foreign_answer) }
 
 
   describe 'GET #index' do

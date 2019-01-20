@@ -8,12 +8,13 @@ feature "User can see his badges", %q{
   given(:another_user) { create(:user) }
   
   given(:question) { create(:question, author: user) }
+  given(:another_question) { create(:question, author: user) }
   given(:answer) { create(:answer, question: question, author: user) }
   given(:foreign_answer) { create(:answer, question: question, author: another_user) }
   
 
-  given!(:badge) { create(:badge, badgeable: answer) }
-  given!(:foreign_badge) { create(:badge, badgeable: foreign_answer) }
+  given!(:badge) { create(:badge, question: question, badgeable: answer) }
+  given!(:foreign_badge) { create(:badge, question: another_question, badgeable: foreign_answer) }
   
   scenario 'Unauthenticated can not see badges' do
     visit badges_path
@@ -28,10 +29,12 @@ feature "User can see his badges", %q{
 
     scenario 'tries to see his badge' do      
       expect(page).to have_content badge.name
+      expect(page).to have_content badge.question.title
     end
 
     scenario "tries to see foreign badge" do
       expect(page).not_to have_content foreign_badge.name
+      expect(page).not_to have_content foreign_badge.question.title
     end
   end  
 
