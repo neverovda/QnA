@@ -2,7 +2,7 @@ class BadgesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @badges = Badge.where(badgeable: current_user) 
+    @badges = current_user.badges 
   end
 
 end

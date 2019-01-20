@@ -3,10 +3,17 @@ feature "User can see his badges", %q{
   As an user
   I'd like to be able to see my badges
 } do
+  
   given(:user) { create :user }
-  given!(:badge) { create(:badge, badgeable: user) }
-  given(:another_user) { create :user }
-  given!(:foreign_badge) { create(:badge, badgeable: another_user) }
+  given(:another_user) { create(:user) }
+  
+  given(:question) { create(:question, author: user) }
+  given(:answer) { create(:answer, question: question, author: user) }
+  given(:foreign_answer) { create(:answer, question: question, author: another_user) }
+  
+
+  given!(:badge) { create(:badge, badgeable: answer) }
+  given!(:foreign_badge) { create(:badge, badgeable: foreign_answer) }
   
   scenario 'Unauthenticated can not see badges' do
     visit badges_path
@@ -14,7 +21,6 @@ feature "User can see his badges", %q{
   end
 
   describe 'Authenticated user' do
-    
     background do
       sign_in user
       visit badges_path

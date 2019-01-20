@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :questions, foreign_key: :author_id, dependent: :nullify
   has_many :answers, foreign_key: :author_id, dependent: :nullify
-  has_many :badges, dependent: :destroy, as: :badgeable
+  has_many :badges, through: :answers
 
   def author_of?(thing)
     id == thing.author_id
