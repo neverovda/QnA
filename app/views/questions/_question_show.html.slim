@@ -17,9 +17,11 @@ p= question.body
         -if link.gist?
           p= link.gist_content
 
-- if question.badge.present?
-  p Badge
-  p= question.badge.name
+.badge_question_place
+  - if question.badge.present?
+    .badge
+      p Badge
+      p= question.badge.name
         
 -if current_user&.author_of?(question)
   = link_to 'Edit question', '#', class: 'edit-question-link'

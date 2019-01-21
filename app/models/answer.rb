@@ -15,9 +15,17 @@ class Answer < ApplicationRecord
   def check_best!
     another_best = question.answers.where(best: true).first
     transaction do
+      reward
       another_best.update!(best: false) if another_best && another_best != self
       self.update!(best: !best)
     end  
+  end
+
+  private
+
+  def reward
+    badge = question.badge
+    badge.update!(badgeable: self) if badge 
   end
 
 end

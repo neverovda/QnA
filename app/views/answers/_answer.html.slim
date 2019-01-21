@@ -37,3 +37,9 @@
           p= link_to file.filename.to_s, url_for(file)    
           -if current_user&.author_of?(answer)
             p= link_to 'Delete file', attachment_path(file), method: :delete, remote: true
+
+    .badge_answer_place
+      - if answer.badge.present?
+        .badge
+          p Badge
+          p= answer.badge.name
