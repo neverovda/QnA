@@ -23,7 +23,7 @@ p= question.body
       p Badge
       p= question.badge.name
       - if question.badge.image.attached?
-        p= link_to question.badge.image.filename.to_s, url_for(question.badge.image)
+        img src=url_for(question.badge.image) alt=question.badge.name height="100" width="100"
       
         
 -if current_user&.author_of?(question)

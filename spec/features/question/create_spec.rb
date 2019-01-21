@@ -42,7 +42,7 @@ feature 'User can create question', %q{
       click_on 'Ask'
 
       expect(page).to have_content 'Badge name'
-      expect(page).to have_link 'badge.jpg'
+      expect(page).to have_css("img[src*='badge.jpg']")
     end
     
     scenario 'asks a question with errors' do

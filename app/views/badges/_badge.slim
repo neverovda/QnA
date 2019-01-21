@@ -1,4 +1,4 @@
 h2= badge.name
 p= badge.question.title
 - if badge.image.attached?
-        p= link_to badge.image.filename.to_s, url_for(badge.image)
+  img src=url_for(badge.image) alt=badge.name height="100" width="100"

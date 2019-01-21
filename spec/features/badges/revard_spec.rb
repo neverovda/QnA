@@ -18,6 +18,7 @@ feature "User can get badge when his answer best", %q{
     within(".answer_#{answer.id}") do
       click_on 'Best'
       expect(page).to have_content badge.name
+      expect(page).to have_css("img[src*='badge.jpg']")
     end
   end
 
