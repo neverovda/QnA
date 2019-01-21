@@ -23,5 +23,8 @@
       p
         = badge.label :name, 'Badge name'
         = badge.text_field :name
+      p
+        = badge.label :image
+        = badge.file_field :image
         
   p= f.submit 'Ask'

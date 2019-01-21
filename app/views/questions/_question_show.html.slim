@@ -22,6 +22,9 @@ p= question.body
     .badge
       p Badge
       p= question.badge.name
+      - if question.badge.image.attached?
+        p= link_to question.badge.image.filename.to_s, url_for(question.badge.image)
+      
         
 -if current_user&.author_of?(question)
   = link_to 'Edit question', '#', class: 'edit-question-link'

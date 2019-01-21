@@ -39,9 +39,9 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], 
+    params.require(:question).permit(:title, :body, files: [],
                                      links_attributes: [:id, :name, :url, :_destroy],
-                                     badge_attributes: [:name])
+                                     badge_attributes: [:name, :image])
   end
 
   def author_of_question?

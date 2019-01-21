@@ -30,6 +30,7 @@ feature "User can see his badges", %q{
     scenario 'tries to see his badge' do      
       expect(page).to have_content badge.name
       expect(page).to have_content badge.question.title
+      expect(page).to have_link 'badge.jpg'
     end
 
     scenario "tries to see foreign badge" do

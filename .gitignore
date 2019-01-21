@@ -30,3 +30,4 @@
 /.idea
 
 /config/secrets.yml
+/spec/images

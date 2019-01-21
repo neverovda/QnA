@@ -38,9 +38,11 @@ feature 'User can create question', %q{
       fill_in 'Body', with: 'text text text'
       
       fill_in 'Badge name', with: 'Badge name'
+      attach_file 'Image', "#{Rails.root}/spec/images/badge.jpg"
       click_on 'Ask'
 
-      expect(page).to have_content 'Badge name'      
+      expect(page).to have_content 'Badge name'
+      expect(page).to have_link 'badge.jpg'
     end
     
     scenario 'asks a question with errors' do
