@@ -16,7 +16,6 @@ class QuestionsController < ApplicationController
 
   def create
     @exposed_question = current_user.questions.new(question_params)
-    question.badge.question = question if question.badge
     if question.save
       redirect_to question, notice: 'Your question successfully created.'
     else      

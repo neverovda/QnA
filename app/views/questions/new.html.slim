@@ -25,6 +25,6 @@
         = badge.text_field :name
       p
         = badge.label :image
-        = badge.file_field :image
+        = badge.file_field :image, direct_upload: true
         
   p= f.submit 'Ask'

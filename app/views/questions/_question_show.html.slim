@@ -19,12 +19,7 @@ p= question.body
 
 .badge_question_place
   - if question.badge.present?
-    .badge
-      p Badge
-      p= question.badge.name
-      - if question.badge.image.attached?
-        img src=url_for(question.badge.image) alt=question.badge.name height="100" width="100"
-      
+    = render question.badge       
         
 -if current_user&.author_of?(question)
   = link_to 'Edit question', '#', class: 'edit-question-link'

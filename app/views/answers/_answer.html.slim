@@ -40,8 +40,4 @@
 
     .badge_answer_place
       - if answer.badge.present?
-        .badge
-          p Badge
-          p= answer.badge.name
-          - if answer.badge.image.attached?
-            img src=url_for(answer.badge.image) alt=answer.badge.name height="100" width="100"
+        = render answer.badge

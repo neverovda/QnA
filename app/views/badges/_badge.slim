@@ -1,4 +1,8 @@
-h2= badge.name
-p= badge.question.title
-- if badge.image.attached?
-  img src=url_for(badge.image) alt=badge.name height="100" width="100"
+.badge
+  p Badge
+  p= badge.name
+  - if local_assigns[:full]
+    p= badge.question.title
+  - if badge.image.attached?
+    img src=url_for(badge.image) alt=badge.name height="100" width="100"
+  

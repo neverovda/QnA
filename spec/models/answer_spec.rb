@@ -4,7 +4,7 @@ RSpec.describe Answer, type: :model do
   it { should belong_to :question } 
   it { should belong_to :author }
   it { should have_many(:links).dependent(:destroy) }
-  it { should have_one(:badge).dependent(:destroy) }
+  it { should have_one(:badge) }
 
   it { should validate_presence_of :body }
 
@@ -43,11 +43,16 @@ RSpec.describe Answer, type: :model do
   end
 
   describe 'reward, sets best flag to true' do
-    let!(:badge) { create(:badge, question: question, badgeable: question) }
+    let!(:badge) { create(:badge, question: question) }
 
-    it 'question must give badge to answer' do
+    it "fill badge's answer" do
       answer.check_best!
       expect(answer.badge).to eq badge
+    end
+
+    it "fill user's answer" do
+      answer.check_best!
+      expect(badge.user).to eq user
     end
   end  
 

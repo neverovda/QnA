@@ -9,12 +9,9 @@ feature "User can see his badges", %q{
   
   given(:question) { create(:question, author: user) }
   given(:another_question) { create(:question, author: user) }
-  given(:answer) { create(:answer, question: question, author: user) }
-  given(:foreign_answer) { create(:answer, question: question, author: another_user) }
   
-
-  given!(:badge) { create(:badge, question: question, badgeable: answer) }
-  given!(:foreign_badge) { create(:badge, question: another_question, badgeable: foreign_answer) }
+  given!(:badge) { create(:badge, question: question, user: user) }
+  given!(:foreign_badge) { create(:badge, question: another_question, user: another_user) }
   
   scenario 'Unauthenticated can not see badges' do
     visit badges_path
