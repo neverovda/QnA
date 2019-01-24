@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_24_061735) do
+ActiveRecord::Schema.define(version: 2019_01_18_113955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,28 @@ ActiveRecord::Schema.define(version: 2018_12_24_061735) do
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
+  create_table "badges", force: :cascade do |t|
+    t.string "name"
+    t.bigint "question_id"
+    t.bigint "answer_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_id"], name: "index_badges_on_answer_id"
+    t.index ["question_id"], name: "index_badges_on_question_id"
+    t.index ["user_id"], name: "index_badges_on_user_id"
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.string "linkable_type"
+    t.bigint "linkable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["linkable_type", "linkable_id"], name: "index_links_on_linkable_type_and_linkable_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -70,5 +92,8 @@ ActiveRecord::Schema.define(version: 2018_12_24_061735) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users", column: "author_id"
+  add_foreign_key "badges", "answers"
+  add_foreign_key "badges", "questions"
+  add_foreign_key "badges", "users"
   add_foreign_key "questions", "users", column: "author_id"
 end

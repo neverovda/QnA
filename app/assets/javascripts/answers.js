@@ -41,3 +41,12 @@ function checkBest(currentAnswer, currentAnswerBest) {
 
 };
 
+function moveBadge(placeForBadge) {
+  badgeQuestionPlace = $(".badge_question_place");
+  badge = $('.badge');
+  
+  if (badge.parent()[0] == badgeQuestionPlace[0]) {
+    placeForBadge.append(badge);
+  }  
+};
+

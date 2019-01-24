@@ -15,10 +15,29 @@
         = f.text_area :body
         = f.label :files
         = f.file_field :files, multiple: true, direct_upload: true
+        #answer_links
+          = f.fields_for :links do |l|
+            = render 'links/link_fields', f: l     
+          .links
+            = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'        
         = f.submit 'Save'
+    
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          li class = "link_#{link.id}"
+            p= link_to link.name, link.url
+            -if link.gist?
+              p= link.gist_content
+    
     -if answer.files.attached?
       - answer.files.each do |file|
         div class = "file_#{file.id}"
           p= link_to file.filename.to_s, url_for(file)    
           -if current_user&.author_of?(answer)
             p= link_to 'Delete file', attachment_path(file), method: :delete, remote: true
+
+    .badge_answer_place
+      - if answer.badge.present?
+        = render answer.badge

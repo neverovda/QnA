@@ -5,6 +5,15 @@ class QuestionsController < ApplicationController
   expose :question, scope: ->{ Question.with_attached_files }  
   expose :answer, ->{ Answer.new }
 
+  def show
+    answer.links.new
+  end
+
+  def new
+    question.links.new
+    question.badge = Badge.new
+  end
+
   def create
     @exposed_question = current_user.questions.new(question_params)
     if question.save
@@ -29,7 +38,9 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                     links_attributes: [:id, :name, :url, :_destroy],
+                                     badge_attributes: [:name, :image])
   end
 
   def author_of_question?

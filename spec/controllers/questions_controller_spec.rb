@@ -6,6 +6,48 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question, author: user) }
   let(:another_user) { create(:user) }
 
+
+  describe 'GET #show' do
+    before { get :show, params: { id: question } }
+    
+    it 'assigns new answer for question' do
+      expect(assigns(:exposed_answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns new link for answer' do
+      expect(assigns(:exposed_answer).links.first).to be_a_new(Link)
+    end
+
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
+
+  describe 'GET #new' do
+    before do
+      login user
+      get :new
+    end
+
+    it 'assigns a new Question to exposed_question' do
+      expect(assigns(:exposed_question)).to be_a_new(Question)
+    end
+
+    it 'assigns new link for question' do
+      expect(assigns(:exposed_question).links.first).to be_a_new(Link)
+    end
+
+    it 'assigns new badge for question' do
+      expect(assigns(:exposed_question).badge).to be_a_new(Badge)
+    end
+
+    it 'renders new view' do
+      expect(response).to render_template :new
+    end
+  end
+
+
   describe 'POST #create' do
     before { login(user) }
 

@@ -1,3 +1,8 @@
 currentAnswer = $('<%= ".answer_#{answer.id}" %>');
 currentAnswerBest = <%= answer.best? %> ;
 checkBest(currentAnswer, currentAnswerBest);
+
+<% if answer.best? && answer.badge %>
+  placeForBadge = $('<%= ".answer_#{answer.id} .badge_answer_place" %>');
+  moveBadge(placeForBadge);
+<% end %>
