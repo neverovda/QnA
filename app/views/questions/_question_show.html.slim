@@ -18,7 +18,7 @@ p= question.body
           p= link.gist_content
 
 .badge_question_place
-  - if question.badge.present?
+  - if question.badge.present? && question.badge.answer.nil?
     = render question.badge       
         
 -if current_user&.author_of?(question)
