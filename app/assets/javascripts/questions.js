@@ -4,5 +4,12 @@ $(document).on('turbolinks:load', function(){
        $(this).hide();
        $('.question-form').removeClass('hidden');
    })
+
+   $('a.like, a.dislike').on('ajax:success', function(e) {
+       var answer = e.detail[0];
+
+       $('.score').text(answer.score);
+   })       
+
 });
 

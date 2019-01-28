@@ -1,6 +1,14 @@
 h1= question.title
 p= question.body
 
+.question-scopes
+  -if current_user&.not_author_of?(question)
+    p= link_to 'Like', like_question_path(question), class: "like" , method: :post, remote: true, data: {type: 'json'}
+    p.score 0
+    p= link_to 'Dislike', dislike_question_path(question), class: "dislike", method: :post, remote: true, data: {type: 'json'}
+  -else 
+    p= "Like 0 Dislike"
+
 - if question.files.attached?
   - question.files.each do |file|
     div class = "file_#{file.id}"

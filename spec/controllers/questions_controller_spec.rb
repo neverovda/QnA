@@ -170,4 +170,15 @@ RSpec.describe QuestionsController, type: :controller do
 
   end
 
+  describe 'POST #like' do
+    before { post :like, params: { id: question } }
+    
+    it 'assigns the requested question to @exposed_question' do
+      expect(assigns(:exposed_question)).to eq question
+    end
+
+    # it 'assigns new vote for Vote' 
+    # it 'renders json score' 
+  end
+
 end

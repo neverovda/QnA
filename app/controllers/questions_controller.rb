@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   expose :questions, ->{ Question.all }
   expose :question, scope: ->{ Question.with_attached_files }  
   expose :answer, ->{ Answer.new }
+  expose :vote, -> { question.current_vote(current_user) } 
 
   def show
     answer.links.new
@@ -33,6 +34,27 @@ class QuestionsController < ApplicationController
       flash[:notice] = 'The question is successfully deleted.'
     end
     redirect_to questions_path
+  end
+
+  # need refactoring
+  def like
+    if vote 
+      vote.like!
+      score = { score: question.score }
+      render json: score.to_json
+    else
+      render nothing: true
+    end
+  end
+
+  def dislike
+    if vote 
+      vote.dislike!
+      score = { score: question.score }
+      render json: score.to_json
+    else
+      render nothing: true   
+    end
   end
 
   private
