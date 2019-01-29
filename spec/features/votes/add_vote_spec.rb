@@ -1,8 +1,8 @@
 require 'rails_helper'
-feature "User can add like", %q{
+feature "User can add vote", %q{
   As an user
-  I'd like to be able to add like to
-  question or answer
+  I'd like to be able to add vote to
+  question
 } do
   
   given(:user) { create :user }
@@ -13,14 +13,14 @@ feature "User can add like", %q{
     
   scenario 'Unauthenticated can not add like' do
     visit question_path(question)
-    within '.question-scopes' do
+    within '.question-score' do
       expect(page).not_to have_link 'Like'
     end
   end
 
   scenario 'Unauthenticated can not add dislike' do
     visit question_path(question)
-    within '.question-scopes' do
+    within '.question-score' do
       expect(page).not_to have_link 'Dislike'
     end
   end
@@ -30,34 +30,34 @@ feature "User can add like", %q{
       
     scenario 'tries to add like to his question' do
       visit question_path(question)
-      within '.question-scopes' do
+      within '.question-score' do
         expect(page).not_to have_link 'Like'
       end
     end
 
     scenario 'tries to add dislike to his question' do
       visit question_path(question)
-      within '.question-scopes' do
+      within '.question-score' do
         expect(page).not_to have_link 'Dislike'
       end
     end
 
     scenario "tries to add like to foreign question", js: true do
       visit question_path(foreign_question)
-      within('.question-scopes') do
+      within('.question-score') do
         expect(page).to have_content '0'
-        click_on "Like"
-        expect(page).to have_content /\A1/
+        click_on "Like"        
       end
+      within('.score') { expect(page).to have_content /\A1/ }
     end
 
     scenario "tries to add dislike to foreign question", js: true do
       visit question_path(foreign_question)
-      within('.question-scopes') do
+      within('.question-score') do
         expect(page).to have_content '0'
-        click_on "Dislike"
-        expect(page).to have_content /\A-1/
+        click_on "Dislike"        
       end
+      within('.score') { expect(page).to have_content /\A-1/ }
     end    
   
   end  
