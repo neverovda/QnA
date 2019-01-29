@@ -26,7 +26,7 @@ class Vote < ApplicationRecord
   private
 
   def user_cannot_vote_by_his_thing
-    if user.author_of?(voteable)
+    if user&.author_of?(voteable)
       errors.add(:user, "can't vote by his thing")
     end
   end

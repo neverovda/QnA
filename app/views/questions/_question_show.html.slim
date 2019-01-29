@@ -7,7 +7,7 @@ p= question.body
     p.score 0
     p= link_to 'Dislike', dislike_question_path(question), class: "dislike", method: :post, remote: true, data: {type: 'json'}
   -else 
-    p= "Like 0 Dislike"
+    p= "Like #{question.score} Dislike"
 
 - if question.files.attached?
   - question.files.each do |file|
