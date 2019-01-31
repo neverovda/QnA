@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:index, :show]
   
   expose :questions, ->{ Question.all }
@@ -35,25 +37,7 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
   
-  def like
-    vote!(:like)    
-  end
-
-  def dislike
-    vote!(:dislike)
-  end
-
   private
-
-  def vote!(type)
-    vote = question.current_vote(current_user) 
-    if vote 
-      vote.like! if type == :like
-      vote.dislike! if type == :dislike      
-    end    
-    score = { score: question.score }
-    render json: score.to_json
-  end
 
   def question_params
     params.require(:question).permit(:title, :body, files: [],
