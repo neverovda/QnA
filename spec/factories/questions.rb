@@ -3,7 +3,8 @@ FactoryBot.define do
   factory :question do
     sequence(:title) { |n| "MyQuestionTitle#{n}" }
     sequence(:body) { |n| "MyQuestionText#{n}" }
- 
+    sequence(:author) { |n| create :user }
+     
     trait :invalid do
       title { nil }
     end
