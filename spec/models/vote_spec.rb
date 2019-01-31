@@ -5,6 +5,7 @@ RSpec.describe Vote, type: :model do
   it { should belong_to :user }
 
   it { should validate_presence_of :value }
+  it { should validate_inclusion_of(:value).in_array(%w[-1 0 1]) }
 
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
@@ -27,7 +28,7 @@ RSpec.describe Vote, type: :model do
     it "when value 1" do
       vote.value = 1
       vote.like!
-      expect(vote.value).to eq 0
+      expect(vote).to be_destroyed      
     end
 
     it "when value -1" do
@@ -52,8 +53,8 @@ RSpec.describe Vote, type: :model do
 
     it "when value -1" do
       vote.value = -1
-      vote.dislike!
-      expect(vote.value).to eq 0
+      vote.dislike!      
+      expect(vote).to be_destroyed
     end
   end
 

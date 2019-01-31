@@ -20,7 +20,6 @@ module Voted
       vote.like! if type == :like
       vote.dislike! if type == :dislike      
     end    
-    score = { score: thing.score }
-    render json: score
+    render json: { score: thing.score }
   end
 end
