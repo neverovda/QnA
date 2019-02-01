@@ -15,13 +15,8 @@ class Vote < ApplicationRecord
 
   private
 
-  def vote!(value)
-    if self.value != value
-      self.value = value
-      self.save
-    else
-      self.destroy  
-    end    
+  def vote!(value)    
+    self.value == value ? self.destroy : update(value: value)    
   end
 
   def user_cannot_vote_by_his_thing

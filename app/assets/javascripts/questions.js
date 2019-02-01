@@ -6,9 +6,9 @@ $(document).on('turbolinks:load', function(){
    })
 
    $('a.like, a.dislike').on('ajax:success', function(e) {
-       var answer = e.detail[0];
-
-       $('.score').text(answer.score);
+       var scorePlace = e.target.parentNode.parentNode;
+       var scoreBag = e.detail[0];
+       scorePlace.getElementsByClassName('score')[0].innerHTML = scoreBag.score;
    })       
 
 });
