@@ -41,3 +41,6 @@
     .badge_answer_place
       - if answer.badge.present?
         = render answer.badge
+
+    .answer-score
+      = render "votes/score", thing: answer

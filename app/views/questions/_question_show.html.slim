@@ -1,6 +1,9 @@
 h1= question.title
 p= question.body
 
+.question-score
+  = render "votes/score", thing: question
+  
 - if question.files.attached?
   - question.files.each do |file|
     div class = "file_#{file.id}"

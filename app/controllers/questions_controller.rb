@@ -1,10 +1,12 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:index, :show]
   
   expose :questions, ->{ Question.all }
   expose :question, scope: ->{ Question.with_attached_files }  
   expose :answer, ->{ Answer.new }
-
+  
   def show
     answer.links.new
   end
@@ -34,7 +36,7 @@ class QuestionsController < ApplicationController
     end
     redirect_to questions_path
   end
-
+  
   private
 
   def question_params

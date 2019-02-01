@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   
+  it_behaves_like "voteable controller"
+
   let(:user) { create(:user) }
   let(:question) { create(:question, author: user) }
   let(:another_user) { create(:user) }
@@ -168,6 +170,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
     end  
 
-  end
+  end  
 
 end

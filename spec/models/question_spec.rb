@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+  it_behaves_like "voteable"
+
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
   it { should have_one(:badge).dependent(:destroy) }
   it { should belong_to :author }
-  
+    
   it { should validate_presence_of :title }
   it { should validate_presence_of :body }
 

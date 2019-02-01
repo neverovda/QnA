@@ -1,0 +1,8 @@
+-if current_user&.not_author_of?(thing)
+  p= link_to 'Like', polymorphic_path([:like, thing]), class: "like" , method: :post, remote: true, data: {type: 'json'}
+  p.score= thing.score
+  p= link_to 'Dislike', polymorphic_path([:dislike, thing]), class: "dislike", method: :post, remote: true, data: {type: 'json'}
+-else 
+  p= "Like"
+  p.score= thing.score 
+  p= "Dislike"
