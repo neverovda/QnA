@@ -1,4 +1,6 @@
 $(document).on('turbolinks:load', function(){
+   questionsList = $('.questions-list')
+
    $('.edit-question-link').on('click', function(e) {
        e.preventDefault();
        $(this).hide();
@@ -13,3 +15,13 @@ $(document).on('turbolinks:load', function(){
 
 });
 
+
+App.cable.subscriptions.create('QuestionsChannel', {
+  connected: function() { 
+    console.log('connected!');
+    this.perform('follow');
+    },
+  received: function(data) {    
+    questionsList.append(data);
+  }
+});
