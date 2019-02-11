@@ -9,6 +9,8 @@ class QuestionsController < ApplicationController
   expose :answer, ->{ Answer.new }
   
   def show
+    gon.question_id = question.id
+    gon.user_id = current_user ? current_user.id : 0
     answer.links.new
   end
 

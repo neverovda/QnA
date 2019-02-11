@@ -44,4 +44,34 @@ feature 'User can create answer', %q{
     click_on 'Post your answer'
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
+
+  context "Multiple sessions", js: true do
+    scenario "answers appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your answer', with: 'text text text'
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Post your answer'
+        expect(page).to have_content 'text text text'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'text text text'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+  end
+
+
 end

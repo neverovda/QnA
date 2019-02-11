@@ -1,5 +1,6 @@
 $(document).on('turbolinks:load', function(){
-   questionsList = $('.questions-list')
+   
+   startSubsriptions();
 
    $('.edit-question-link').on('click', function(e) {
        e.preventDefault();
@@ -11,17 +12,53 @@ $(document).on('turbolinks:load', function(){
        var scorePlace = e.target.parentNode.parentNode;
        var scoreBag = e.detail[0];
        scorePlace.getElementsByClassName('score')[0].innerHTML = scoreBag.score;
-   })       
+   })
 
 });
 
 
-App.cable.subscriptions.create('QuestionsChannel', {
-  connected: function() { 
-    console.log('connected!');
-    this.perform('follow');
-    },
-  received: function(data) {    
-    questionsList.append(data);
-  }
-});
+function startSubsriptions() {
+  pathname = document.location.pathname
+  
+  if (pathname == '/' || pathname == '/questions') {
+    startQuestionsChannelSub();
+  };
+
+  if (/\/questions\/\d+/.test(pathname)) {  
+    startAnswersChannelSub()
+  };
+}
+
+function startQuestionsChannelSub() {
+  App.cable.subscriptions.create('QuestionsChannel', {
+    connected: function() { 
+      console.log('Questions channel connected.');
+      this.perform('follow');
+      },
+    received: function(data) {    
+      questionsList = $('.questions-list');
+      questionsList.append(data);
+    }
+  });
+}
+
+function startAnswersChannelSub() {
+  App.cable.subscriptions.create({channel: 'AnswersChannel', id: gon.question_id}, {
+    connected: function() { 
+      console.log('Answer channel connected.');
+      this.perform('follow');
+      },
+    received: function(data) { 
+      
+      // console.log(data['answer'])   
+      // console.log(data.files)   
+      
+      if (data['answer'].author_id != gon.user_id) {
+        answersList = $('.answers');
+        answersList.append(JST["templates/answer"]({ answer: data.answer,
+                                                     files: data.files  }));
+        
+      }
+    }
+  });
+}
