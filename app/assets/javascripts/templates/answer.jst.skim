@@ -9,3 +9,13 @@ div class = answerClass
     - @files.forEach (f) ->        
         div
           a href="#{f.url}" = f.name
+
+  dev class = "links"
+    p Links:
+    ul
+      - @links.forEach (l) ->
+        li 
+          p
+            a href="#{l.url}" = l.name          
+          -if l.gist_content.length
+            p= l.gist_content

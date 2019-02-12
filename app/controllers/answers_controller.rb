@@ -33,7 +33,8 @@ class AnswersController < ApplicationController
     AnswersChannel.broadcast_to(
       answer.question, 
       answer: answer,
-      files: helpers.urls(answer.files))
+      files: helpers.urls(answer.files),
+      links: helpers.links(answer.links))
   end  
 
   def answer_params

@@ -49,14 +49,14 @@ function startAnswersChannelSub() {
       this.perform('follow');
       },
     received: function(data) { 
-      
-      // console.log(data['answer'])   
-      // console.log(data.files)   
-      
+           
+      console.log(data.links)
+            
       if (data['answer'].author_id != gon.user_id) {
         answersList = $('.answers');
         answersList.append(JST["templates/answer"]({ answer: data.answer,
-                                                     files: data.files  }));
+                                                     files: data.files,
+                                                     links: data.links  }));
         
       }
     }

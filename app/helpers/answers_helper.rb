@@ -6,4 +6,12 @@ module AnswersHelper
     end
   end
 
+  def links(links)
+    links.map do |link|
+      { name: link.name, 
+        url: link.url,
+        gist_content: link.gist? ? link.gist_content : '' }
+    end
+  end
+
 end
