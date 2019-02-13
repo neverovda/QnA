@@ -7,15 +7,16 @@ $(document).on('turbolinks:load', function(){
        $(this).hide();
        $('.question-form').removeClass('hidden');
    })
-
-   $('a.like, a.dislike').on('ajax:success', function(e) {
-       var scorePlace = e.target.parentNode.parentNode;
-       var scoreBag = e.detail[0];
-       scorePlace.getElementsByClassName('score')[0].innerHTML = scoreBag.score;
-   })
+   
+   $('a.like, a.dislike').on('ajax:success', scoreCounter);
 
 });
 
+function scoreCounter(e) {
+  var scorePlace = e.target.parentNode.parentNode;
+  var scoreBag = e.detail[0];
+  scorePlace.getElementsByClassName('score')[0].innerHTML = scoreBag.score;
+}
 
 function startSubsriptions() {
   pathname = document.location.pathname
@@ -57,7 +58,8 @@ function startAnswersChannelSub() {
         answersList.append(JST["templates/answer"]({ answer: data.answer,
                                                      files: data.files,
                                                      links: data.links  }));
-        
+        answerClass = '.answer_'+ data.answer.id
+        $(answerClass + ' a.like,' + answerClass + ' a.dislike').on('ajax:success', scoreCounter);        
       }
     }
   });

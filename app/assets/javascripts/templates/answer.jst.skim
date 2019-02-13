@@ -10,7 +10,7 @@ div class = answerClass
         div
           a href="#{f.url}" = f.name
 
-  dev class = "links"
+  dev.links
     p Links:
     ul
       - @links.forEach (l) ->
@@ -19,3 +19,15 @@ div class = answerClass
             a href="#{l.url}" = l.name          
           -if l.gist_content.length
             p= l.gist_content
+
+  div.answer-score
+    -if gon.user_id && (@answer.author_id != gon.user_id)
+      p 
+        a.like data-remote='true' data-method='post' data-type='json' href="/answers/#{@answer.id}/like" Like
+      p.score= 0
+      p
+        a.dislike data-remote='true' data-method='post' data-type='json' href="/answers/#{@answer.id}/dislike" Dislike
+    -else 
+      p= "Like"
+      p.score= 0
+      p= "Dislike"
