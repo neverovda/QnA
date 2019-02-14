@@ -9,10 +9,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: [:voteable], shallow: true do
+  concern :commentable do
+    resources :comments, only: :create
+  end
+
+  resources :questions, concerns: [:voteable, :commentable], shallow: true do
+    resources :comments, only: :create 
     resources :answers, concerns: [:voteable], except: [:show, :index] do
       post :best, on: :member
-    end
+    end    
   end
 
   resources :attachments, only: :destroy

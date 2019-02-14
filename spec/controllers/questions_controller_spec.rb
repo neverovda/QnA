@@ -20,9 +20,12 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:exposed_answer).links.first).to be_a_new(Link)
     end
 
-
     it 'renders show view' do
       expect(response).to render_template :show
+    end
+
+    it 'assigns new comment for question' do
+      expect(assigns(:comment)).to be_a_new(Comment)
     end
   end
 
