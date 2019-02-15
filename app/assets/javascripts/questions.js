@@ -26,7 +26,8 @@ function startSubsriptions() {
   };
 
   if (/\/questions\/\d+/.test(pathname)) {  
-    startAnswersChannelSub()
+    startAnswersChannelSub();
+    startCommentsChannelSub();
   };
 }
 
@@ -51,7 +52,7 @@ function startAnswersChannelSub() {
       },
     received: function(data) { 
            
-      console.log(data.links)
+      // console.log(data.links)
             
       if (data['answer'].author_id != gon.user_id) {
         answersList = $('.answers');
@@ -60,6 +61,25 @@ function startAnswersChannelSub() {
                                                      links: data.links  }));
         answerClass = '.answer_'+ data.answer.id
         $(answerClass + ' a.like,' + answerClass + ' a.dislike').on('ajax:success', scoreCounter);        
+      }
+    }
+  });
+}
+
+function startCommentsChannelSub() {
+  App.cable.subscriptions.create({channel: 'CommentsChannel', id: gon.question_id}, {
+    connected: function() { 
+      console.log('Comments channel connected.');
+      this.perform('follow');
+      },
+    received: function(data) { 
+                  
+      if (data.comment.author_id != gon.user_id) {
+        console.log(data.comment)
+        commentsList = $('.question .comments');
+        
+        commentsList.append(JST["templates/comment"]({ comment: data.comment }));
+        
       }
     }
   });

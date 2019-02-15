@@ -18,7 +18,7 @@ feature 'User can create commet to question', %q{
         fill_in 'Your comment', with: 'text text text'
         click_on 'Post comment'
       end
-      expect(page).to have_content 'text text text'      
+      expect(page).to have_content 'text text text'
     end
     
     scenario 'Give a comment with errors' do
@@ -35,5 +35,29 @@ feature 'User can create commet to question', %q{
       expect(page).to_not have_link 'Post comment'
     end    
   end
+
+  
+  scenario "Question's comment appears on another user's page", js: true do
+    Capybara.using_session('user') do
+      sign_in(user)
+      visit question_path(question)
+    end
+
+    Capybara.using_session('guest') do
+      visit question_path(question)
+    end
+
+    Capybara.using_session('user') do
+      within '.question' do
+        fill_in 'Your comment', with: 'text text text'
+        click_on 'Post comment'
+      end      
+    end
+
+    Capybara.using_session('guest') do
+      expect(page).to have_content 'text text text'
+    end
+  end
+
 
 end
