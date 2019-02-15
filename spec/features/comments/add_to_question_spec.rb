@@ -35,7 +35,6 @@ feature 'User can create commet to question', %q{
       expect(page).to_not have_link 'Post comment'
     end    
   end
-
   
   scenario "Question's comment appears on another user's page", js: true do
     Capybara.using_session('user') do
@@ -58,6 +57,5 @@ feature 'User can create commet to question', %q{
       expect(page).to have_content 'text text text'
     end
   end
-
 
 end

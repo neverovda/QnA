@@ -37,4 +37,28 @@ feature 'User can create commet to answer', %q{
     end    
   end
 
+  scenario "Answer's comment appears on another user's page", js: true do
+    Capybara.using_session('user') do
+      sign_in(user)
+      visit question_path(question)
+    end
+
+    Capybara.using_session('guest') do
+      visit question_path(question)
+    end
+
+    Capybara.using_session('user') do
+      within ".answer_#{answer.id}" do
+        fill_in 'Your comment', with: 'text text text'
+        click_on 'Post comment'
+      end
+    end
+
+    Capybara.using_session('guest') do
+      within ".answer_#{answer.id}" do
+        expect(page).to have_content 'text text text'
+      end      
+    end
+  end
+
 end

@@ -76,10 +76,15 @@ function startCommentsChannelSub() {
                   
       if (data.comment.author_id != gon.user_id) {
         console.log(data.comment)
-        commentsList = $('.question .comments');
         
-        commentsList.append(JST["templates/comment"]({ comment: data.comment }));
-        
+        if (data.comment.commentable_type == "Question") {
+          list = $('.question .comments');
+        };
+
+        if (data.comment.commentable_type == "Answer") {          
+          list = $('.answer_'+ data.comment.commentable_id + ' .comments');
+        };        
+        list.append(JST["templates/comment"]({ comment: data.comment }));        
       }
     }
   });
