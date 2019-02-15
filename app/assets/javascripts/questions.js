@@ -39,7 +39,7 @@ function startQuestionsChannelSub() {
       },
     received: function(data) {    
       questionsList = $('.questions-list');
-      questionsList.append(data);
+      questionsList.append(JST["templates/question"]({ question: data.question }));
     }
   });
 }

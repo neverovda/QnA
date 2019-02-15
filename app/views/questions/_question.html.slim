@@ -1,5 +1,5 @@
 p class="question_#{question.id}"
   = link_to question.title, question
   = ' | ' 
-  / -if current_user&.author_of?(question)
-  /   = link_to 'Delete', question, method: :delete
+  -if current_user&.author_of?(question)
+    = link_to 'Delete', question, method: :delete

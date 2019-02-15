@@ -47,11 +47,7 @@ class QuestionsController < ApplicationController
     return if question.errors.any?
     ActionCable.server.broadcast(
       'questions',
-      ApplicationController.render(
-        partial: 'questions/question',
-        locals: { question: question }
-      )
-    )
+      question: question)
   end
 
   def question_params
