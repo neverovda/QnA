@@ -3,7 +3,7 @@
   = render thing.comments.sorted_by_time
   
 .comments-form
-  = form_with model: [thing, @comment], class: 'new-comment' do |f|
+  = form_with model: [thing, comment], class: 'new-comment' do |f|
     p  
       = f.label :body, 'Your comment'
       = f.text_area :body

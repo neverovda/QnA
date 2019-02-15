@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   include Voted
+  include Commented
 
   before_action :authenticate_user!, except: [:index, :show]
   after_action :publish_question, only: [:create] 
@@ -8,11 +9,10 @@ class QuestionsController < ApplicationController
   expose :question, scope: ->{ Question.with_attached_files }  
   expose :answer, ->{ Answer.new }
   
-  def show
+  def show    
     gon.question_id = question.id
     gon.user_id = current_user ? current_user.id : 0
-    answer.links.new
-    @comment = question.comments.new
+    answer.links.new    
   end
 
   def new
@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def update
+  def update    
     question.update(question_params) if author_of_question?
   end
 

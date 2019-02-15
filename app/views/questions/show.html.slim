@@ -10,7 +10,7 @@
   p  
     = f.label :body, 'Your answer'
     = f.text_area :body
-  p
+  p.files
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
   p Links:

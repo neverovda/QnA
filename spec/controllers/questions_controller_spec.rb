@@ -23,10 +23,7 @@ RSpec.describe QuestionsController, type: :controller do
     it 'renders show view' do
       expect(response).to render_template :show
     end
-
-    it 'assigns new comment for question' do
-      expect(assigns(:comment)).to be_a_new(Comment)
-    end
+    
   end
 
   describe 'GET #new' do

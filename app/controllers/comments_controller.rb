@@ -2,9 +2,8 @@ class CommentsController < ApplicationController
   
   before_action :authenticate_user!
     
-  def create
-    @commentable = commentable
-    @comment = @commentable.comments.new(author: current_user, 
+  def create    
+    @comment = commentable.comments.new(author: current_user, 
                                        body: commentable_params[:body])    
     @comment.save
   end
