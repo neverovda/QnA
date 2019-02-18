@@ -23,6 +23,9 @@ p= question.body
 .badge_question_place
   - if question.badge.present? && question.badge.answer.nil?
     = render question.badge       
+
+
+= render "comments/comments", thing: question
         
 -if current_user&.author_of?(question)
   = link_to 'Edit question', '#', class: 'edit-question-link'

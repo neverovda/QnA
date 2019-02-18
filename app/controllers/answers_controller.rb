@@ -1,8 +1,10 @@
 class AnswersController < ApplicationController
   include Voted
+  include Commented
 
   before_action :authenticate_user!
-    
+  after_action :publish_answer, only: [:create]
+
   expose :question
   expose :answer, scope: ->{ Answer.with_attached_files }
 
@@ -26,6 +28,15 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if answer.errors.any?
+    AnswersChannel.broadcast_to(
+      answer.question, 
+      answer: answer,
+      files: helpers.urls(answer.files),
+      links: helpers.links(answer.links))
+  end  
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: [:id, :name, :url, :_destroy])

@@ -26,7 +26,8 @@ feature "User can get badge when his answer best", %q{
 
     scenario "can see reward badge on badges's page", js: true do
       within(".answer_#{answer.id}") do
-        click_on 'Best'        
+        click_on 'Best'
+        sleep 1
       end
       visit badges_path
       expect(page).to have_content badge.name

@@ -1,0 +1,14 @@
+<% owner = @comment.commentable %>
+<% owner_class = '.question' if owner.class == Question %>
+<% owner_class = ".answer_#{owner.id}" if owner.class == Answer %>
+<% selector_errors = "#{owner_class} .comment-errors" %>
+<% selector_comments = "#{owner_class} .comments" %>
+<% selector_comment_body = "#{owner_class} .new-comment #comment_body" %>
+
+
+$('<%= selector_errors %>').html('<%= render 'shared/errors', resource: @comment %>');
+
+<% if @comment.persisted? %>
+  $('<%= selector_comments %>').append('<%= j render @comment %>');
+  $('<%= selector_comment_body %>').val('');
+<% end %>

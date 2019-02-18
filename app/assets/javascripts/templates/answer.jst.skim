@@ -1,0 +1,34 @@
+- best = if @answer.best then ' best' else ''
+- answerClass = "answer answer_#{@answer.id}#{best}"
+div class = answerClass
+  - best_sign_classes = if @answer.best == true then 'best-sign' else 'best-sign hidden'
+  div class = best_sign_classes 'Best answer!'
+  = @answer.body
+
+  - if @files.length
+    - for f in @files
+      div
+        a href="#{f.url}" = f.name
+
+
+  .links
+    p Links:
+    ul
+      -for l in @links
+          li
+            p
+              a href="#{l.url}" = l.name
+            - if l.gist_content.length
+              p= l.gist_content
+
+  div.answer-score
+    -if gon.user_id && (@answer.author_id != gon.user_id)
+      p 
+        a.like data-remote='true' data-method='post' data-type='json' href="/answers/#{@answer.id}/like" Like
+      p.score= 0
+      p
+        a.dislike data-remote='true' data-method='post' data-type='json' href="/answers/#{@answer.id}/dislike" Dislike
+    -else 
+      p= "Like"
+      p.score= 0
+      p= "Dislike" 

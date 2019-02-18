@@ -3,4 +3,7 @@ $('.answer-errors').html('<%= render 'shared/errors', resource: answer %>');
 <% if answer.persisted? %>
   $('.answers').append('<%= j render answer %>');
   $('.new-answer #answer_body').val('');
+  $('.new-answer #links .link_name,.new-answer #links .link_url').val('');
+  $('.new-answer #answer_files').val('').prop( "disabled", false );
+  $('.new-answer .files input[type="hidden"]').remove();
 <% end %> 

@@ -34,6 +34,7 @@ feature 'User can add links to answer', %q{
       end
 
       click_on 'Post your answer'
+      sleep 1
 
       within '.answers' do
         expect(page).to have_link 'My gist', href: gist_url
@@ -62,6 +63,7 @@ feature 'User can add links to answer', %q{
       fill_in 'Url', with: gist_url
                 
       click_on 'Post your answer'
+      sleep 1
 
       expect(page).to have_content "gist text"
     end
@@ -84,6 +86,43 @@ feature 'User can add links to answer', %q{
       click_on 'Save'
       expect(page).to have_link 'My link', href: gist_url
       
+    end
+  end
+
+  context "Multiple sessions" do
+    scenario "answers appears on another user's page whis links", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)        
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your answer', with: 'text text text'
+        click_on 'Add link'
+        within('#links nested-fields:nth-child(1)') do
+          fill_in 'Link name', with: 'My link'
+          fill_in 'Url', with: img_url
+        end  
+      
+        click_on 'Add link'
+        within('#links nested-fields:nth-child(2)') do
+          fill_in 'Link name', with: 'My Gist Link'
+          fill_in 'Url', with: gist_url
+        end
+        click_on 'Post your answer'
+        sleep 2
+      end
+
+      Capybara.using_session('guest') do        
+        expect(page).to have_content 'text text text'        
+        expect(page).to have_link 'My link'
+        expect(page).to have_link 'My Gist Link'
+        expect(page).to have_content "gist text"
+      end
     end
   end
 
