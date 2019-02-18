@@ -1,4 +1,4 @@
-- best = if @answer.best == true then ' best' else ''
+- best = if @answer.best then ' best' else ''
 - answerClass = "answer answer_#{@answer.id}#{best}"
 div class = answerClass
   - best_sign_classes = if @answer.best == true then 'best-sign' else 'best-sign hidden'
@@ -6,19 +6,20 @@ div class = answerClass
   = @answer.body
 
   - if @files.length
-    - @files.forEach (f) ->        
-        div
-          a href="#{f.url}" = f.name
+    - for f in @files
+      div
+        a href="#{f.url}" = f.name
 
-  dev.links
+
+  .links
     p Links:
     ul
-      - @links.forEach (l) ->
-        li 
-          p
-            a href="#{l.url}" = l.name          
-          -if l.gist_content.length
-            p= l.gist_content
+      -for l in @links
+          li
+            p
+              a href="#{l.url}" = l.name
+            - if l.gist_content.length
+              p= l.gist_content
 
   div.answer-score
     -if gon.user_id && (@answer.author_id != gon.user_id)
@@ -30,4 +31,4 @@ div class = answerClass
     -else 
       p= "Like"
       p.score= 0
-      p= "Dislike"
+      p= "Dislike" 

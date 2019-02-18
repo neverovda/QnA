@@ -104,13 +104,13 @@ feature 'User can add links to answer', %q{
         fill_in 'Your answer', with: 'text text text'
         click_on 'Add link'
         within('#links nested-fields:nth-child(1)') do
-          fill_in 'Link name', with: 'Mylink'
+          fill_in 'Link name', with: 'My link'
           fill_in 'Url', with: img_url
         end  
       
         click_on 'Add link'
         within('#links nested-fields:nth-child(2)') do
-          fill_in 'Link name', with: 'MyGistLink'
+          fill_in 'Link name', with: 'My Gist Link'
           fill_in 'Url', with: gist_url
         end
         click_on 'Post your answer'
@@ -119,9 +119,9 @@ feature 'User can add links to answer', %q{
 
       Capybara.using_session('guest') do        
         expect(page).to have_content 'text text text'        
-        expect(page).to have_link 'Mylink'
-        expect(page).to have_link 'MyGistLink'
-        # expect(page).to have_content "gist text"
+        expect(page).to have_link 'My link'
+        expect(page).to have_link 'My Gist Link'
+        expect(page).to have_content "gist text"
       end
     end
   end

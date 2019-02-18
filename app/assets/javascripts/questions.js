@@ -51,8 +51,6 @@ function startAnswersChannelSub() {
       this.perform('follow');
       },
     received: function(data) { 
-           
-      // console.log(data.links)
             
       if (data['answer'].author_id != gon.user_id) {
         answersList = $('.answers');
@@ -60,7 +58,7 @@ function startAnswersChannelSub() {
                                                      files: data.files,
                                                      links: data.links  }));
         answerClass = '.answer_'+ data.answer.id
-        $(answerClass + ' a.like,' + answerClass + ' a.dislike').on('ajax:success', scoreCounter);        
+        $(answerClass + ' a.like,' + answerClass + ' a.dislike').on('ajax:success', scoreCounter);
       }
     }
   });
@@ -75,8 +73,7 @@ function startCommentsChannelSub() {
     received: function(data) { 
                   
       if (data.comment.author_id != gon.user_id) {
-        console.log(data.comment)
-        
+                
         if (data.comment.commentable_type == "Question") {
           list = $('.question .comments');
         };
