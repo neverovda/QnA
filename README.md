@@ -1,24 +1,20 @@
-# README
+# Приложение вопросов и ответов, аналог Stack Overflow
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* (выполнено) Введение в TDD/BDD
+* (выполнено) Тестирование контроллеров
+* (выполнено) Интеграционное (acceptance) тестирование
+* (выполнено) Ajax в Rails
+* (выполнено) ActiveStorage и работа с файлами
+* (выполнено) Вложенные формы и полиморфные ассоциации
+* (выполнено) Различные формы Ajax в Rails
+* (выполнено) ActionCable
+* (выполнено) Протокол OAuth (аутентификация через соц. Сети)
+* __Авторизация в Rails__
+* __REST API__
+* (изучено самостоятельно) Фоновые задачи
+* __Полнотекстовый поиск__
+* __Deploy, ч. 1. Настройка сервера__
+* __Deploy, ч. 2. Capistrano__
+* __Продвинутая настройка сервера__
+* (изучено самостоятельно) Оптимизация и кеширование
+* __Отказоустойчивость__
